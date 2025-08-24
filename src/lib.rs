@@ -1,14 +1,14 @@
-pub fn add(left: u64, right: u64) -> u64 {
-    left + right
-}
+use curve25519_dalek;
+use rand_core::{OsRng, RngCore};
 
 #[cfg(test)]
 mod tests {
     use super::*;
 
     #[test]
-    fn it_works() {
-        let result = add(2, 2);
-        assert_eq!(result, 4);
+    fn rng() {
+        let i: u32 = OsRng.next_u32();
+        let j: u32 = OsRng.next_u32();
+        assert_ne!(i, j);
     }
 }
