@@ -1,0 +1,3 @@
+# Twisted ElGamal Non-Interactive Schnorr Chaum-Pedersen toolkit Zero-Knowledge protocol implementation.
+
+Using Twisted ElGamal adapted ElGamal encryption adapted for Pedersen commitments, this library implements a Non-Interactive version of the Chaum-Pedersen protocol using Fiat-Shamit Heuristics for zero knowledge commitments of an initial message over an abstract cyclic group (G,+) using Ristretto Group with Curve25519. The library used in this implementation for the construction of the Ristretto Group is curve25519-dalek.
