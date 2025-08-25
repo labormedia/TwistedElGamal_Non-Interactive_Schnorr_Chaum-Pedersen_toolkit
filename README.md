@@ -10,22 +10,22 @@ For Key Generation $x \xleftarrow{\\$} \mathbb{Z}_q, Y = x G$,
 
 With message in scalar form m, it encodes $M = m G \in \mathcal{G}$.
 
-Encryption is as follows:\
+### Encryption is as follows:\
 $k \xleftarrow{\\$} Z_q$,\
 $`C_1 = k G, C_2 = M + k Y`$ \
 Ciphertext $CT = (C_1, C_2)$
 
-Decryption:\
+### Decryption\
 Compute $`S' = x C_1 = x k G = k x G = k Y`$\
 $`C_2 - S' = M + k Y - k Y = M = m G`$\
 Then solves the discrete logarithm (theoretical) of $M = m G$ to recover $m$
 
-Goal:\
+### Goal\
 Given a Public Key, a Commitment and a Ciphertext prove that there exists scalars $m$, $r$ and $k$ such that:\
 $`C_m = m G + r H, C_1 = k G, C_2 = M + k Y`$\
 This statement hides $M = m G$ with domain separated $H$ and randomly generated $r$, while encrypting the same original $m$ of the message.
  
-Statement and witnesses:\
+### Statement and witnesses:\
 Public: $`G, H, Y, C_m, C_1, C_2`$\
 Witnesses: $`m, r, k \in Z_q`$
 
