@@ -71,6 +71,7 @@ use curve25519_dalek::{
 use rand_core::{OsRng, RngCore};
 use sha2::{Digest, Sha512};
 
+/// Pedersen generator H from "hidden" label and Ristretto Base Point G.
 fn pedersen_h() -> RistrettoPoint {
     let mut d = Sha512::new();
     d.update(b"Pedersen/H/domain_sep/v1");
@@ -78,11 +79,15 @@ fn pedersen_h() -> RistrettoPoint {
     RistrettoPoint::from_hash::<Sha512>(d)
 }
 
-fn absorb_scalar(s: &Scalar, digest: &mut Sha512) {
+/// Digest Helper for Scalar
+fn absorb_scalar(label: &[u8], s: &Scalar, digest: &mut Sha512) {
+    digest.update(label);
     digest.update(s.as_bytes());
 }
 
-fn absorb_point(p: &RistrettoPoint, digest: &mut Sha512) {
+/// Digest Helper for Ristretto Point
+fn absorb_point(label: &[u8], p: &RistrettoPoint, digest: &mut Sha512) {
+    digest.update(label);
     digest.update(p.compress().as_bytes())
 }
 
@@ -109,9 +114,9 @@ mod tests {
         let mut d = Sha512::new();
         let s = Scalar::hash_from_bytes::<Sha512>(b"Byte phrase for scalar");
         let p = RistrettoPoint::hash_from_bytes::<Sha512>(b"Byte phrase for point");
-        absorb_scalar(&s, &mut d);
-        absorb_point(&p, &mut d);
+        absorb_scalar(b"Scalar label", &s, &mut d);
+        absorb_point(b"Point label", &p, &mut d);
         let result = d.finalize();
-        assert_eq!(result[..], [51, 50, 172, 159, 80, 179, 20, 36, 74, 141, 221, 10, 148, 49, 202, 164, 105, 244, 20, 193, 89, 165, 87, 224, 128, 77, 128, 234, 9, 245, 255, 131, 241, 249, 193, 56, 177, 67, 82, 20, 54, 14, 112, 75, 173, 56, 75, 104, 215, 77, 36, 219, 205, 252, 77, 254, 135, 214, 156, 229, 156, 137, 217, 153]);
+        assert_eq!(result[..], [217, 227, 115, 4, 191, 27, 44, 136, 161, 244, 12, 207, 118, 146, 19, 87, 68, 41, 21, 139, 89, 140, 91, 220, 136, 119, 91, 94, 27, 149, 223, 82, 140, 40, 120, 224, 69, 131, 19, 157, 229, 88, 168, 207, 40, 32, 43, 25, 73, 174, 17, 98, 227, 38, 80, 169, 179, 200, 216, 41, 192, 112, 131, 243]);
     }
 }
