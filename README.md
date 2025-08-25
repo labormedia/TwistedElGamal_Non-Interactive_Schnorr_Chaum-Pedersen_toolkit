@@ -21,7 +21,7 @@ $`C_2 - S' = M + k Y - k Y = M = m G`$\
 Then solves the discrete logarithm (theoretical) of $M = m G$ to recover $m$
 
 Goal:\
-Given a Public Key, a Commitment and a Ciphertext provethat here exists scalars $m$, $r$ and $k$ such that:\
+Given a Public Key, a Commitment and a Ciphertext prove that there exists scalars $m$, $r$ and $k$ such that:\
 $`C_m = m G + r H, C_1 = k G, C_2 = M + k Y`$\
 This statement hides $M = m G$ with domain separated $H$ and randomly generated $r$, while encrypting the same original $m$ of the message.
  
