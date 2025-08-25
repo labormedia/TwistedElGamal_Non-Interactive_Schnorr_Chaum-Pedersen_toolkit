@@ -23,7 +23,7 @@ Then solves the discrete logarithm (theoretical) of $M = m*G$ to recover m
 Goal:\
 Given a Public Key, a Commitment and a Ciphertext prove:\
 There exist scalars m, r and k such that:\
-$`C_m = m G + r H, C_1 = k G, C_2 = M + k Y`$  // This statement hides M = m*G with domain separated H and randomly generated r, while encrypting the same original m of the message. +
+$`C_m = m G + r H, C_1 = k G, C_2 = M + k Y`$  // This statement hides $M = m G$ with domain separated H and randomly generated $r$, while encrypting the same original m of the message. +
  
 Statement and witnesses:\
 Public: $`G, H, Y, C_m, C_1, C_2`$\
@@ -55,9 +55,9 @@ and accepts if they all hold, otherwise it rejects
 
 ### Properties:
 
-- Completeness: For mathematical proof, replace with generic variables\
-- Special soundness: Two accepting transcripts with same initial $T_1, T_2, T_3$ and different challenges extracts the openings $(m, r, k)$\
-- Honest validator zero-knowledge (HVSK): From an accepting transcript, we can simulate $T_1, T_2, T_3$ from totally random $s_m, s_r, s_k \xleftarrow{\\$} Z_q$ and post hoc $e$, proving no aditional information is leaked.\
+- Completeness: For mathematical proof, replace with generic variables
+- Special soundness: Two accepting transcripts with same initial $T_1, T_2, T_3$ and different challenges extracts the openings $(m, r, k)$
+- Honest validator zero-knowledge (HVSK): From an accepting transcript, we can simulate $T_1, T_2, T_3$ from totally random $s_m, s_r, s_k \xleftarrow{\\$} Z_q$ and post hoc $e$, proving no aditional information is leaked.
 - Non-Interactive zero-knowledge (NISK): Given by HVSK and the Fiat-Shamit heuristics.
 
 ### Sigma Protocol (P,V) for Verifiable Decryption (Chaum-Pedersen):
@@ -65,13 +65,13 @@ and accepts if they all hold, otherwise it rejects
  
 Prover P choose $`t \xleftarrow{\tiny \$} Z_q`$ and sends:
 
-$`\xleftarrow{A = t G, B = y Y}`$
+$`A = t G, B = y Y`$
 
 Validator V sends a challenge $`e \xleftarrow{\tiny \$} Z_q`$
 
-$`\xrightarrow{e}`$
+$`e`$
 
-$\xleftarrow{z = t + e k}$
+$`z = t + e k`$
 
 V verifies $`z G \stackrel{\text{\tiny ?}}{=} A + e C_1, z Y \stackrel{\text{\tiny ?}}{=} B + (C_2 - M)`$\
 If both conditions hold, accepts, otherwise rejects.
