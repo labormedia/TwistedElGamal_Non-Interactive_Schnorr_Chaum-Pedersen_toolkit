@@ -1,7 +1,7 @@
 //! Twisted ElGamal Non-Interactive Chaum/Pedersen protocol
 //! Consider cyclic Group (|G, +) of prime order q with generator G and H with fixed and secret domain separator (hidden dependence).
 //! For Key Generation x <-$ Z_q, Y = x*G,
-//! With message in scalar form m, it encodes M = m*G in G.
+//! With message in scalar form m, it encodes M = m*G in |G.
 //!
 //! Encryption is as follows:
 //! k <-$ Z_q, 
@@ -48,9 +48,19 @@
 //! Properties:
 //! Completeness: check for generic variables
 //! Special soundness: Two accepting transcripts with same initial T_1, T_2, T_3 and different challenges extracts the openings (m, r, k)
-//! zero-knowledge: From an accepting transcript, we can simulate T_1, T_2, T_3 from totally random s_m, s_r, s_k <-$ Z_q and post hoc e, proving no aditional information is leaked.
+//! Honest validator zero-knowledge (HVSK): From an accepting transcript, we can simulate T_1, T_2, T_3 from totally random s_m, s_r, s_k <-$ Z_q and post hoc e, proving no aditional information is leaked.
 //!
-
+//! Sigma Protocol (P,V) for Verifiable Decryption (Chaum-Pedersen):
+//! Proves that log_G(C1) = log_Y(C2 - M)
+//! 
+//! Protocol (P,V):
+//! -> Prover P choose t <-$ Z_q and sends:
+//! A = t*G, B = y*Y
+//! <- Validator V send a challenge e
+//! -> Prover responds with scalar z = t + e*k
+//! V verifies z*G =? A + e*C_1, z*Y =? B + (C_2 - M)
+//! If both conditions hold, accepts, otherwise rejects.
+//!
 use curve25519_dalek::{
     RistrettoPoint, 
     Scalar,
