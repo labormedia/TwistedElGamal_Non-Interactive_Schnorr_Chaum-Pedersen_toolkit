@@ -55,7 +55,7 @@
 //! Proves that log_G(C1) = log_Y(C2 - M)
 //! 
 //! -> Prover P choose t <-$ Z_q and sends:
-//! A = t*G, B = y*Y
+//! A = t*G, B = t*Y
 //! <- Validator V send a challenge e
 //! -> Prover responds with scalar z = t + e*k
 //! V verifies z*G =? A + e*C_1, z*Y =? B + (C_2 - M)
@@ -78,6 +78,14 @@ fn pedersen_h() -> RistrettoPoint {
     RistrettoPoint::from_hash::<Sha512>(d)
 }
 
+fn absorb_scalar(s: &Scalar, digest: &mut Sha512) {
+    digest.update(s.as_bytes());
+}
+
+fn absorb_point(p: &RistrettoPoint, digest: &mut Sha512) {
+    digest.update(p.compress().as_bytes())
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -94,5 +102,16 @@ mod tests {
         let a = pedersen_h();
         let b = pedersen_h();
         assert_eq!(a, b);
+    }
+
+    #[test]
+    fn absorb_digest() {
+        let mut d = Sha512::new();
+        let s = Scalar::hash_from_bytes::<Sha512>(b"Byte phrase for scalar");
+        let p = RistrettoPoint::hash_from_bytes::<Sha512>(b"Byte phrase for point");
+        absorb_scalar(&s, &mut d);
+        absorb_point(&p, &mut d);
+        let result = d.finalize();
+        assert_eq!(result[..], [51, 50, 172, 159, 80, 179, 20, 36, 74, 141, 221, 10, 148, 49, 202, 164, 105, 244, 20, 193, 89, 165, 87, 224, 128, 77, 128, 234, 9, 245, 255, 131, 241, 249, 193, 56, 177, 67, 82, 20, 54, 14, 112, 75, 173, 56, 75, 104, 215, 77, 36, 219, 205, 252, 77, 254, 135, 214, 156, 229, 156, 137, 217, 153]);
     }
 }
