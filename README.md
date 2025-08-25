@@ -18,7 +18,7 @@ Ciphertext $CT = (C_1, C_2)$
 Decryption:\
 Compute $`S' = x C_1 = x k G = k x G = k Y`$\
 $`C_2 - S' = M + k Y - k Y = M = m G`$\
-Then solves the discrete logarithm (theoretical) of $M = m*G$ to recover m
+Then solves the discrete logarithm (theoretical) of $M = m G$ to recover $m$
 
 Goal:\
 Given a Public Key, a Commitment and a Ciphertext prove:\
