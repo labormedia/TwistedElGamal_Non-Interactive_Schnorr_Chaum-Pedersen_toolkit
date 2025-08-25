@@ -8,7 +8,7 @@ Using Twisted ElGamal encryption, this library implements a Non-Interactive vers
 Consider cyclic Group $(\mathcal{G}, +)$ of prime order q with generator G and H with fixed and secret domain separator (hidden dependence).\
 For Key Generation $x \xleftarrow{\\$} \mathbb{Z}_q, Y = x G$,
 
-With message in scalar form m, it encodes $M = m*G \in \mathcal{G}$.
+With message in scalar form m, it encodes $M = m G \in \mathcal{G}$.
 
 Encryption is as follows:\
 $k \xleftarrow{\\$} Z_q$,\
@@ -49,19 +49,20 @@ $`s_m = \alpha + e m, s_r = \beta + e r, s_k = \gamma + e k`$
 Validator V checks:\
 $`s_k G \stackrel{\text{\tiny ?}}{=} T_1 + e C_1`$\
 $`s_m G + s_kY \stackrel{\text{\tiny ?}}{=} T_2 + e C_2`$\
-$`s_m G + S_rH \stackrel{\text{\tiny ?}}{=} T_3 + e C_m`$\
+$`s_m G + S_rH \stackrel{\text{\tiny ?}}{=} T_3 + e C_m`$
+
 and accepts if they all hold, otherwise it rejects
 
 Properties:\
-Completeness: check for generic variables\
-Special soundness: Two accepting transcripts with same initial $T_1, T_2, T_3$ and different challenges extracts the openings (m, r, k)\
-Honest validator zero-knowledge (HVSK): From an accepting transcript, we can simulate $T_1, T_2, T_3$ from totally random $s_m, s_r, s_k \xleftarrow{\\$} Z_q$ and post hoc e, proving no aditional information is leaked.\
-Non-Interactive zero-knowledge (NISK): Given by HVSK and the Fiat-Shamit heuristics.
+- Completeness: For mathematical proof, replace with generic variables\
+- Special soundness: Two accepting transcripts with same initial $T_1, T_2, T_3$ and different challenges extracts the openings (m, r, k)\
+- Honest validator zero-knowledge (HVSK): From an accepting transcript, we can simulate $T_1, T_2, T_3$ from totally random $s_m, s_r, s_k \xleftarrow{\\$} Z_q$ and post hoc e, proving no aditional information is leaked.\
+- Non-Interactive zero-knowledge (NISK): Given by HVSK and the Fiat-Shamit heuristics.
 
 ### Sigma Protocol (P,V) for Verifiable Decryption (Chaum-Pedersen):
  Proves that $log_G(C1) = log_Y(C2 - M)$
  
-Prover P choose $`t \xleftarrow{\tiny \$} Z_q`$ and sends:\
+Prover P choose $`t \xleftarrow{\tiny \$} Z_q`$ and sends:
 
 $`\xleftarrow{A = t G, B = y Y}`$
 
