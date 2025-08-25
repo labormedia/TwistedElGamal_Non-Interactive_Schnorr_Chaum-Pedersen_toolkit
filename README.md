@@ -10,9 +10,9 @@ For Key Generation $x \xleftarrow{\\$} \mathbb{Z}_q, Y = x*G$,
 
 With message in scalar form m, it encodes $M = m*G \in \mathcal{G}$.
 
-Encryption is as follows:
-$k \xleftarrow{\\$} Z_q$,
-$C_1 = k*G, C_2 = M + k*Y$ \
+Encryption is as follows:\
+$k \xleftarrow{\\$} Z_q$,\
+$C_1 = k*G$, $C_2 = M + k*Y$ \
 Ciphertext $CT = (C_1, C_2)$
 
 Decryption:\
