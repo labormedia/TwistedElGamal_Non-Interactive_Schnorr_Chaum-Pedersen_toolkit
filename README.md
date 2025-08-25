@@ -36,7 +36,7 @@ $C_2 = M + k*Y$
 ### Multi-relation Sigma Protocol (P, V):
 Prover P chooses random $\alpha, \beta, \gamma \xleftarrow{\\$} Z_q$\
 and defines:\
-$$T_1 = \gamma*G$$\
+$$T_1 = \gamma*G\\\\$$
 $T_2 = \alpha*G + \gamma*Y$\
 $T_3 = \alpha*G + \beta*H$
 
