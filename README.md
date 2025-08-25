@@ -47,9 +47,9 @@ and responds with scalars:\
 $`s_m = \alpha + e*m, s_r = \beta + e*r, s_k = \gamma + e*k`$
  
 Validator V checks:\
-$`s_k*G =? T_1 + e*C_1`$\
-$`s_m*G + s_k*Y =? T_2 + e*C_2`$\
-$`s_m*G + S_r*H =? T_3 + e*C_m`$\
+$`s_k*G \stackrel{\text{\tiny ?}}{=} T_1 + e*C_1`$\
+$`s_m*G + s_k*Y \stackrel{\text{\tiny ?}}{=} T_2 + e*C_2`$\
+$`s_m*G + S_r*H \stackrel{\text{\tiny ?}}{=} T_3 + e*C_m`$\
 and accepts if they all hold, otherwise it rejects
 
 Properties:\
