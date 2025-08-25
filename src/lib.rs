@@ -1,4 +1,4 @@
-use curve25519_dalek;
+use curve25519_dalek::{RistrettoPoint, Scalar};
 use rand_core::{OsRng, RngCore};
 
 #[cfg(test)]
