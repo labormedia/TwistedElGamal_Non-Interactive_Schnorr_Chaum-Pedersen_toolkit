@@ -66,7 +66,7 @@ and accepts if they all hold, otherwise it rejects
  
 Prover P choose $`t \xleftarrow{\tiny \$} Z_q`$ and sends:
 
-$`A = t G, B = y Y`$
+$`A = t G, B = t Y`$
 
 Validator V sends a challenge $`e \xleftarrow{\tiny \$} Z_q`$
 
