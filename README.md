@@ -63,13 +63,13 @@ and accepts if they all hold, otherwise it rejects.
 ### Sigma Protocol (P,V) for Verifiable Decryption (Chaum-Pedersen):
  Proves that $log_G(C1) = log_Y(C2 - M)$
  
-- Prover P choose $`t \xleftarrow{\tiny \$} Z_q`$ and sends $`A = t G, B = t Y`$
+Prover P choose $`t \xleftarrow{\tiny \$} Z_q`$ and sends $`A = t G, B = t Y`$
 
-- Validator V sends a challenge $`e \xleftarrow{\tiny \$} Z_q`$
+Validator V sends a challenge $`e \xleftarrow{\tiny \$} Z_q`$
 
-- Prover finally sends $`z = t + e k`$
+Prover finally sends $`z = t + e k`$
 
-- V verifies:
+V verifies:
 
 $`z G \stackrel{\text{\tiny ?}}{=} A + e C_1`$\
 $`z Y \stackrel{\text{\tiny ?}}{=} B + (C_2 - M)`$
