@@ -6,7 +6,8 @@ Using Twisted ElGamal encryption, this library implements a Non-Interactive vers
 
 ### Twisted ElGamal Non-Interactive Chaum/Pedersen protocol
 Consider cyclic Group $(\mathcal{G}, +)$ of prime order q with generator G and H with fixed and secret domain separator (hidden dependence).\
-For Key Generation $x \xleftarrow{\$} \mathbb{Z}_q$, $Y = x*G$,\
+For Key Generation $x \xleftarrow{\\$} \mathbb{Z}_q, Y = x*G$,\
+
 With message in scalar form m, it encodes $M = m*G$ \in $\mathcal{G}$.
 
 Encryption is as follows:\
