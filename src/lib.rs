@@ -67,8 +67,9 @@ use curve25519_dalek::{
     RistrettoPoint, 
     Scalar,
     constants::RISTRETTO_BASEPOINT_POINT as G,
+    traits::MultiscalarMul,
 };
-use rand_core::{OsRng, RngCore};
+use rand_core::{OsRng, RngCore, CryptoRngCore};
 use sha2::{Digest, Sha512};
 
 /// Pedersen generator H from "hidden" label and Ristretto Base Point G.
@@ -89,6 +90,66 @@ fn absorb_scalar(label: &[u8], s: &Scalar, digest: &mut Sha512) {
 fn absorb_point(label: &[u8], p: &RistrettoPoint, digest: &mut Sha512) {
     digest.update(label);
     digest.update(p.compress().as_bytes())
+}
+
+struct Message {
+    m: Scalar,
+    pub point: RistrettoPoint,
+}
+
+impl Message {
+    pub fn new(s: &[u8]) -> Self {
+        let m = Scalar::hash_from_bytes::<Sha512>(s);
+        Self { m, point: m*G }
+    }
+}
+
+struct CipherText {
+    pub c1: RistrettoPoint,
+    pub c2: RistrettoPoint,
+}
+
+/// Twisted ElGamal Encryption
+pub fn twisted_elgamal_encrypt<R: CryptoRngCore>(
+    pk: &RistrettoPoint,
+    msg: &RistrettoPoint,
+    rng: &mut R,
+) -> (CipherText, Scalar) {
+    let k = Scalar::random(rng);
+    let c1 = k*G;
+    let c2 = msg + k*pk;
+    (
+        CipherText {c1, c2},
+        k
+    )
+}
+
+/// Twisted ElGamal Decryption
+pub fn twisted_elgamal_decrypt(
+    sk: &Scalar,
+    ct: &CipherText,
+) -> RistrettoPoint {
+    let s = sk*ct.c1;
+    ct.c2 - s
+}
+
+/// KeyPair openings
+#[derive(Clone, Debug)]
+#[allow(dead_code)]
+pub struct KeyPair {
+    sk: Scalar,
+    pub pk: RistrettoPoint,
+}
+
+impl KeyPair {
+    pub fn generate() -> Self {
+        let sk = Scalar::random(&mut OsRng);
+        let pk = sk*G;
+        Self { sk, pk }
+    }
+    pub fn get_secret(&self) -> Scalar {
+        self.sk
+    }
 }
 
 #[cfg(test)]
@@ -118,5 +179,22 @@ mod tests {
         absorb_point(b"Point label", &p, &mut d);
         let result = d.finalize();
         assert_eq!(result[..], [217, 227, 115, 4, 191, 27, 44, 136, 161, 244, 12, 207, 118, 146, 19, 87, 68, 41, 21, 139, 89, 140, 91, 220, 136, 119, 91, 94, 27, 149, 223, 82, 140, 40, 120, 224, 69, 131, 19, 157, 229, 88, 168, 207, 40, 32, 43, 25, 73, 174, 17, 98, 227, 38, 80, 169, 179, 200, 216, 41, 192, 112, 131, 243]);
+    }
+    
+    #[test]
+    fn generate_pair() {
+        let pair_a = KeyPair::generate();
+        let pair_b = KeyPair::generate();
+        assert_ne!(pair_a.pk, pair_b.pk);
+    }
+    
+    #[test]
+    fn encrypt_decrypt_message() {
+        let key_pair = KeyPair::generate();
+        let message = Message::new(b"message to encrypt");
+        let encrypted_message = twisted_elgamal_encrypt(&key_pair.pk, &message.point, &mut OsRng);
+        let sk = key_pair.get_secret();
+        let decrypted_message = twisted_elgamal_decrypt(&sk, &encrypted_message.0);
+        assert_eq!(message.point, decrypted_message);
     }
 }

@@ -1,5 +1,5 @@
 [package]
-name = "TwistedElGamal_Non-Interactive_Schnorr_Chaum-Pedersen_toolkit"
+name = "twisted_el_gamal_non_interactive_schnorr_chaum_pedersen_toolkit"
 version = "0.1.0"
 edition = "2024"
 
