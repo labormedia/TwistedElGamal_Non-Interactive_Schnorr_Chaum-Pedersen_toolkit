@@ -8,11 +8,11 @@ Using Twisted ElGamal encryption, this library implements a Non-Interactive vers
 Consider cyclic Group $(\mathcal{G}, +)$ of prime order q with generator G and H with fixed and secret domain separator (hidden dependence).\
 For Key Generation $x \xleftarrow{\\$} \mathbb{Z}_q, Y = x*G$,\
 
-With message in scalar form m, it encodes $M = m*G$ \in $\mathcal{G}$.
+With message in scalar form m, it encodes $M = m*G \in \mathcal{G}$.
 
 Encryption is as follows:\
-$k <-$ Z_q$, \
-$C_1 = k*G$, $C_2 = M + k*Y$\
+$k \xleftarrow{\\$} Z_q$, \
+$C_1 = k*G, C_2 = M + k*Y$\
 Ciphertext $CT = (C_1, C_2)$
 
 Decryption:\
