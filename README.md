@@ -4,7 +4,7 @@ Using Twisted ElGamal encryption, this library implements a Non-Interactive vers
 
 ## The problem
 
- Twisted ElGamal Non-Interactive Chaum/Pedersen protocol
+### Twisted ElGamal Non-Interactive Chaum/Pedersen protocol
  Consider cyclic Group (|G, +) of prime order q with generator G and H with fixed and secret domain separator (hidden dependence).
  For Key Generation x <-$ Z_q, Y = x*G,
  With message in scalar form m, it encodes M = m*G in |G.
@@ -32,7 +32,7 @@ Using Twisted ElGamal encryption, this library implements a Non-Interactive vers
  C_1 = k*G
  C_2 = M + k*Y
 
- Multi-relation Sigma Protocol (P, V):
+### Multi-relation Sigma Protocol (P, V):
  Prover P chooses random alpha, beta, gamma <-$ Z_q
  and defines:
  T_1 = gamma*G
@@ -57,7 +57,7 @@ Using Twisted ElGamal encryption, this library implements a Non-Interactive vers
  Honest validator zero-knowledge (HVSK): From an accepting transcript, we can simulate T_1, T_2, T_3 from totally random s_m, s_r, s_k <-$ Z_q and post hoc e, proving no aditional information is leaked.
  Non-Interactive zero-knowledge (NISK): Given by HVSK and the Fiat-Shamit heuristics.
 
- Sigma Protocol (P,V) for Verifiable Decryption (Chaum-Pedersen):
+### Sigma Protocol (P,V) for Verifiable Decryption (Chaum-Pedersen):
  Proves that log_G(C1) = log_Y(C2 - M)
  
  -> Prover P choose t <-$ Z_q and sends:
