@@ -62,11 +62,16 @@ Non-Interactive zero-knowledge (NISK): Given by HVSK and the Fiat-Shamit heurist
  Proves that $log_G(C1) = log_Y(C2 - M)$
  
 Prover P choose $`t \xleftarrow{\tiny \$} Z_q`$ and sends:\
-$$`\xleftarrow{A = t*G, B = y*Y}`$$\
+
+$`\xleftarrow{A = t*G, B = y*Y}`$\
+
 Validator V sends a challenge $`e \xleftarrow{\tiny \$} Z_q`$\
+
 $`\xrightarrow{e}`$\
+
 $\xleftarrow{z = t + e*k}$\
-V verifies $`z*G =? A + e*C_1, z*Y =? B + (C_2 - M)`$\
+
+V verifies $`z G =? A + e C_1, z Y =? B + (C_2 - M)`$\
 If both conditions hold, accepts, otherwise rejects.
 
  Completeness, special soundness, HVSK and NISK given by the Multi-relation Sigma Protocol with Fiat-Shamir heuristics.
