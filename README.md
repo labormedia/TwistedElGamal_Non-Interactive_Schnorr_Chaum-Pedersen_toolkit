@@ -6,7 +6,7 @@ Using Twisted ElGamal encryption, this library implements a Non-Interactive vers
 
 ### Twisted ElGamal Non-Interactive Chaum/Pedersen protocol
 Consider cyclic Group $(\mathcal{G}, +)$ of prime order q with generator G and H with fixed and secret domain separator (hidden dependence).\
-For Key Generation $x \xleftarrow{\\$} \mathbb{Z}_q, Y = x*G$,\
+For Key Generation $x \xleftarrow{\\$} \mathbb{Z}_q, Y = x*G$,
 
 With message in scalar form m, it encodes $M = m*G \in \mathcal{G}$.
 
@@ -29,14 +29,14 @@ Statement and witnesses:\
 Public: G, H, Y, $C_m$, $C_1$, $C_2$\
 Witnesses: $m, r, k \in Z_q$
 
-$C_m = m*G + r*H$\
+$$C_m = m*G + r*H$$\
 $C_1 = k*G$\
 $C_2 = M + k*Y$
 
 ### Multi-relation Sigma Protocol (P, V):
-Prover P chooses random $\alpha, \beta, \gamma <-$ Z_q$\
+Prover P chooses random $\alpha, \beta, \gamma \xleftarrow{\\$} Z_q$\
 and defines:\
-$T_1 = \gamma*G$\
+$$T_1 = \gamma*G$$\
 $T_2 = \alpha*G + \gamma*Y$\
 $T_3 = \alpha*G + \beta*H$
 
@@ -61,9 +61,9 @@ Non-Interactive zero-knowledge (NISK): Given by HVSK and the Fiat-Shamit heurist
 ### Sigma Protocol (P,V) for Verifiable Decryption (Chaum-Pedersen):
  Proves that $log_G(C1) = log_Y(C2 - M)$
  
-Prover P choose $t \xleftarrow{\$} Z_q$ and sends:\
+Prover P choose $t \xleftarrow{\\$} Z_q$ and sends:\
 $\xleftarrow{A = t*G, B = y*Y}$\
-Validator V sends a challenge $e \xleftarrow{\$} Z_q$\
+Validator V sends a challenge $e \xleftarrow{\\$} Z_q$\
 $\xrightarrow{e}$
 $\xleftarrow{z = t + e*k}$\
 V verifies $z*G =? A + e*C_1, z*Y =? B + (C_2 - M)$\
