@@ -34,7 +34,7 @@ $`C_1 = k*G`$\
 $`C_2 = M + k*Y`$
 
 ### Multi-relation Sigma Protocol (P, V):
-Prover P chooses random $`\alpha, \beta, \gamma \xleftarrow{\\$} Z_q`$\
+Prover P chooses random $`\alpha, \beta, \gamma \xleftarrow{\\tiny $} Z_q`$\
 and defines:\
 $`T_1 = \gamma*G`$\
 $`T_2 = \alpha*G + \gamma*Y`$\
