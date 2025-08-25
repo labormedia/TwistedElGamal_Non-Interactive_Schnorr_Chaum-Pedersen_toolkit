@@ -61,7 +61,7 @@ and accepts if they all hold, otherwise it rejects.
 - Non-Interactive zero-knowledge (NIZK): Given by HVZK and the Fiat-Shamir heuristics.
 
 ### Sigma Protocol (P,V) for Verifiable Decryption (Chaum-Pedersen):
- Proves that $log_G(C1) = log_Y(C2 - M)$
+Goal: Prove that $log_G(C1) = log_Y(C2 - M)$
  
 Prover P choose $`t \xleftarrow{\tiny \$} Z_q`$ and sends $`A = t G, B = t Y`$
 
