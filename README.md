@@ -76,8 +76,8 @@ $`z = t + e k`$
 
 V verifies:
 
-$`z G \stackrel{\text{\tiny ?}}{=} A + e C_1$\
-$z Y \stackrel{\text{\tiny ?}}{=} B + (C_2 - M)`$
+$`z G \stackrel{\text{\tiny ?}}{=} A + e C_1`$\
+$`z Y \stackrel{\text{\tiny ?}}{=} B + (C_2 - M)`$
 
 If both conditions hold, accepts, otherwise rejects.
 
