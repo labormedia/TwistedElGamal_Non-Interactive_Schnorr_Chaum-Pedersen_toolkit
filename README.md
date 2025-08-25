@@ -5,7 +5,7 @@ Using Twisted ElGamal encryption, this library implements a Non-Interactive vers
 ## The problem
 
 ### Twisted ElGamal Non-Interactive Chaum/Pedersen protocol
-Consider cyclic Group $(\mathcal{G}, +)$ of prime order q with generator G and H with fixed and secret domain separator (hidden dependence).\
+Consider cyclic Group $(\mathcal{G}, +)$ of prime order q with generator $G$ and $H$ with fixed and secret domain separator (hidden dependence).\
 For Key Generation $x \xleftarrow{\\$} \mathbb{Z}_q, Y = x G$,
 
 With message in scalar form m, it encodes $M = m G \in \mathcal{G}$.
@@ -24,7 +24,7 @@ Goal:\
 Given a Public Key, a Commitment and a Ciphertext prove:\
 There exist scalars m, r and k such that:\
 $`C_m = m G + r H, C_1 = k G, C_2 = M + k Y`$\
-This statement hides $M = m G$ with domain separated H and randomly generated $r$, while encrypting the same original m of the message. +
+This statement hides $M = m G$ with domain separated $H$ and randomly generated $r$, while encrypting the same original $m$ of the message.
  
 Statement and witnesses:\
 Public: $`G, H, Y, C_m, C_1, C_2`$\
