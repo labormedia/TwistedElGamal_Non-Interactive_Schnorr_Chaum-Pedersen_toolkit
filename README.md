@@ -10,8 +10,8 @@ For Key Generation $x \xleftarrow{\\$} \mathbb{Z}_q, Y = x*G$,
 
 With message in scalar form m, it encodes $M = m*G \in \mathcal{G}$.
 
-Encryption is as follows:\
-$k \xleftarrow{\\$} Z_q$, \
+Encryption is as follows:
+$k \xleftarrow{\\$} Z_q$,
 $C_1 = k*G, C_2 = M + k*Y$ \
 Ciphertext $CT = (C_1, C_2)$
 
@@ -36,7 +36,9 @@ $C_2 = M + k*Y$
 ### Multi-relation Sigma Protocol (P, V):
 Prover P chooses random $\alpha, \beta, \gamma \xleftarrow{\\$} Z_q$\
 and defines:\
-$$T_1 = \gamma*G\\\\$$
+$$
+T_1 = \gamma*G\\\\
+$$
 $T_2 = \alpha*G + \gamma*Y$\
 $T_3 = \alpha*G + \beta*H$
 
