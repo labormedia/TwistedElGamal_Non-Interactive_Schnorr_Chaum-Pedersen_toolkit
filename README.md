@@ -47,9 +47,9 @@ and responds with scalars:\
 $`s_m = \alpha + e*m, s_r = \beta + e*r, s_k = \gamma + e*k`$
  
 Validator V checks:\
-$`s_k*G \stackrel{\text{\tiny ?}}{=} T_1 + e*C_1`$\
-$`s_m*G + s_k*Y \stackrel{\text{\tiny ?}}{=} T_2 + e*C_2`$\
-$`s_m*G + S_r*H \stackrel{\text{\tiny ?}}{=} T_3 + e*C_m`$\
+$`s_kG \stackrel{\text{\tiny ?}}{=} T_1 + eC_1`$\
+$`s_mG + s_kY \stackrel{\text{\tiny ?}}{=} T_2 + eC_2`$\
+$`s_mG + S_rH \stackrel{\text{\tiny ?}}{=} T_3 + eC_m`$\
 and accepts if they all hold, otherwise it rejects
 
 Properties:\
@@ -61,9 +61,9 @@ Non-Interactive zero-knowledge (NISK): Given by HVSK and the Fiat-Shamit heurist
 ### Sigma Protocol (P,V) for Verifiable Decryption (Chaum-Pedersen):
  Proves that $log_G(C1) = log_Y(C2 - M)$
  
-Prover P choose $t \xleftarrow{\\$} Z_q$ and sends:\
+Prover P choose $t \xleftarrow{\tiny \$} Z_q$ and sends:\
 $`\xleftarrow{A = t*G, B = y*Y}`$\
-Validator V sends a challenge $e \xleftarrow{\\$} Z_q$\
+Validator V sends a challenge $e \xleftarrow{\tiny \$} Z_q$\
 $`\xrightarrow{e}`$
 $\xleftarrow{z = t + e*k}$\
 V verifies $`z*G =? A + e*C_1, z*Y =? B + (C_2 - M)`$\
