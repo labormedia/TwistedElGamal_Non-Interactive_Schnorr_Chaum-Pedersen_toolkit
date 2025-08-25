@@ -4,7 +4,7 @@ Using Twisted ElGamal encryption, this library implements a Non-Interactive vers
 
 ## The problem
 
-### Twisted ElGamal Non-Interactive Chaum/Pedersen protocol
+### Twisted ElGamal Non-Interactive Chaum-Pedersen protocol
 Consider cyclic Group $(\mathcal{G}, +)$ of prime order q with generator $G$ and $H$ with fixed and secret domain separator (hidden dependence).\
 For Key Generation $x \xleftarrow{\\$} \mathbb{Z}_q, Y = x G$,
 
@@ -51,12 +51,12 @@ $`s_k G \stackrel{\text{\tiny ?}}{=} T_1 + e C_1`$\
 $`s_m G + s_kY \stackrel{\text{\tiny ?}}{=} T_2 + e C_2`$\
 $`s_m G + S_rH \stackrel{\text{\tiny ?}}{=} T_3 + e C_m`$
 
-and accepts if they all hold, otherwise it rejects
+and accepts if they all hold, otherwise it rejects.
 
 ### Properties:
 
-- Completeness: For mathematical proof, replace with generic variables
-- Special soundness: Two accepting transcripts with same initial $T_1, T_2, T_3$ and different challenges extracts the openings $(m, r, k)$
+- Completeness: For mathematical proof, replace with generic variables.
+- Special soundness: Two accepting transcripts with same initial $T_1, T_2, T_3$ and different challenges extracts the openings $(m, r, k)$.
 - Honest validator zero-knowledge (HVZK): From an accepting transcript, we can simulate $T_1, T_2, T_3$ from totally random $s_m, s_r, s_k \xleftarrow{\\$} Z_q$ and post hoc $e$, proving no aditional information is leaked.
 - Non-Interactive zero-knowledge (NIZK): Given by HVZK and the Fiat-Shamir heuristics.
 
@@ -78,6 +78,6 @@ $`z = t + e k`$
 $`z G \stackrel{\text{\tiny ?}}{=} A + e C_1`$\
 $`z Y \stackrel{\text{\tiny ?}}{=} B + (C_2 - M)`$
 
-If both conditions hold, accepts, otherwise rejects.
+If both conditions hold accepts, otherwise rejects.
 
- Completeness, special soundness, HVZK and NIZK given by the Multi-relation Sigma Protocol with Fiat-Shamir heuristics.
+ Completeness, special soundness, HVZK and NIZK are given by the Multi-relation Sigma Protocol with Fiat-Shamir heuristics.
