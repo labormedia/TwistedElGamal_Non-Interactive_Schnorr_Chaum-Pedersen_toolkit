@@ -62,7 +62,7 @@ Non-Interactive zero-knowledge (NISK): Given by HVSK and the Fiat-Shamit heurist
  Proves that $log_G(C1) = log_Y(C2 - M)$
  
 Prover P choose $`t \xleftarrow{\tiny \$} Z_q`$ and sends:\
-$`\xleftarrow{A = t*G, B = y*Y}`$\
+$$`\xleftarrow{A = t*G, B = y*Y}`$$\
 Validator V sends a challenge $`e \xleftarrow{\tiny \$} Z_q`$\
 $`\xrightarrow{e}`$\
 $\xleftarrow{z = t + e*k}$\
