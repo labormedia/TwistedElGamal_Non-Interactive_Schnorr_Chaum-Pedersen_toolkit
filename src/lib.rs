@@ -92,8 +92,9 @@ fn absorb_point(label: &[u8], p: &RistrettoPoint, digest: &mut Sha512) {
     digest.update(p.compress().as_bytes())
 }
 
+#[derive(Clone)]
 struct Message {
-    m: Scalar,
+    pub m: Scalar,
     pub point: RistrettoPoint,
 }
 
@@ -104,6 +105,7 @@ impl Message {
     }
 }
 
+#[derive(Clone, Debug)]
 struct CipherText {
     pub c1: RistrettoPoint,
     pub c2: RistrettoPoint,
@@ -152,6 +154,140 @@ impl KeyPair {
     }
 }
 
+// ConsistencyProof is perfectly hiding and biding.
+// Based on the discrete logarithm (DL) and the Discretional Diffie-Hellman (DDH) assumptions, this data is perfectly hiding and binding to the witnesses m, r and k.
+struct ConsistencyProof {
+    Y: RistrettoPoint,
+    cm: RistrettoPoint,
+    c1: RistrettoPoint,
+    c2: RistrettoPoint,
+    t1: RistrettoPoint,
+    t2: RistrettoPoint,
+    t3: RistrettoPoint,
+    s_m: Scalar,
+    s_r: Scalar,
+    s_k: Scalar,
+}
+
+fn check_challenge(value_list: &[(&str, RistrettoPoint)]) -> Sha512 {
+    let mut e = Sha512::new();
+    let public_labels: &[&str] = &[
+        "G",
+        "H",
+        "Y",
+        "Cm",
+        "C1",
+        "C2",
+        "T1",
+        "T2",
+        "T3",
+    ];
+    for (i, &(label, point)) in value_list.iter().enumerate() {
+        if label == public_labels[i] {
+            absorb_point(label.as_bytes(), &point,&mut  e);
+        } else {
+            panic!("Inconsistent Implementation")
+        }
+    }
+    e
+}
+
+impl ConsistencyProof {
+    fn build<R: CryptoRngCore>(message: &Message, scheme: &ProtocolScheme, rng: &mut R) -> Self {
+        let alpha = Scalar::random(rng);
+        let beta = Scalar::random(rng);
+        let gamma = Scalar::random(rng);
+        let H = pedersen_h();
+        let Y = scheme.Y;
+        let cm = scheme.pedersen_commitment;
+        let c1 = scheme.ct.c1;
+        let c2 = scheme.ct.c2;
+        let t1 = gamma*G;
+        let t2 = alpha*G + gamma*Y;
+        let t3 = alpha*G + beta*H;
+        let challenge_values= [
+            ("G", G),
+            ("H", H),
+            ("Y", Y),
+            ("Cm", cm),
+            ("C1", c1),
+            ("C2", c2),
+            ("T1", t1),
+            ("T2", t2),
+            ("T3", t3),
+        ];
+        let challenge_digest = check_challenge(&challenge_values);
+        let e = Scalar::from_hash::<Sha512>(challenge_digest);
+
+        // Responses
+        let s_m = alpha + e * message.m;
+        let s_r = beta  + e * scheme.r;
+        let s_k = gamma + e * scheme.k;
+        Self {
+            Y,
+            cm,
+            c1,
+            c2,
+            t1,
+            t2,
+            t3,
+            s_m,
+            s_r,
+            s_k,
+        }
+    }
+    fn validate(&self) -> bool {
+        let H = pedersen_h();
+        let challenge_values= [
+            ("G", G),
+            ("H", H),
+            ("Y", self.Y),
+            ("Cm", self.cm),
+            ("C1", self.c1),
+            ("C2", self.c2),
+            ("T1", self.t1),
+            ("T2", self.t2),
+            ("T3", self.t3),
+        ];
+        let challenge_digest = check_challenge(&challenge_values);
+        let s_r = self.s_r;
+        let s_m = self.s_m;
+        let s_k = self.s_k;
+        let e = Scalar::from_hash::<Sha512>(challenge_digest);
+        self.s_k*G == self.t1 + e * self.c1
+        && self.s_m*G + self.s_k*self.Y == self.t2 + e*self.c2
+        && self.s_m*G + self.s_r*H == self.t3 + e*self.cm
+    }
+}
+
+// ProtocolScheme contains the scheme construction from the perspective of the Prover
+#[derive(Clone, Debug)]
+pub struct ProtocolScheme {
+    pub Y: RistrettoPoint,
+    pub pedersen_commitment: RistrettoPoint,
+    pub ct: CipherText,
+    pub k: Scalar,
+    pub r: Scalar,
+}
+
+impl ProtocolScheme {
+    pub fn setup<R: CryptoRngCore>(message: &[u8], rng: &mut R) -> Self {
+        let h = pedersen_h();
+        let key_pair = KeyPair::generate();
+        let message_opening = Message::new(message);
+        let r = Scalar::random(rng);
+        let encryption = twisted_elgamal_encrypt(&key_pair.pk, &message_opening.point, rng);
+        let pedersen_commitment = RistrettoPoint::multiscalar_mul(&[message_opening.m, r], &[G, h]);
+        Self {
+            Y: key_pair.pk,
+            pedersen_commitment,
+            ct: encryption.0,
+            k: encryption.1,
+            r,
+        }
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -196,5 +332,26 @@ mod tests {
         let sk = key_pair.get_secret();
         let decrypted_message = twisted_elgamal_decrypt(&sk, &encrypted_message.0);
         assert_eq!(message.point, decrypted_message);
+    }
+    
+    #[test]
+    fn check_scheme() {
+        // First message and scheme
+        let plain_message = b"hidden message";
+        let encoded_message = Message::new(plain_message);
+        let scheme = ProtocolScheme::setup(plain_message, &mut OsRng);
+        let proof_a = ConsistencyProof::build(&encoded_message, &scheme, &mut OsRng);
+        // Second different message and scheme
+        let another_message = b"another message";
+        let another_encoded_message = Message::new(another_message);
+        let another_scheme = ProtocolScheme::setup(another_message, &mut OsRng);
+        let proof_b = ConsistencyProof::build(&another_encoded_message, &another_scheme, &mut OsRng);
+        // crossed proofs
+        let cross_proof_a = ConsistencyProof::build(&another_encoded_message, &scheme, &mut OsRng);
+        let cross_proof_b = ConsistencyProof::build(&encoded_message, &another_scheme, &mut OsRng);
+        assert!(proof_a.validate()); // valid encoding -> accept
+        assert!(proof_b.validate()); // valid_encoding -> accept
+        assert!(!cross_proof_a.validate()); // not valid encoding -> reject
+        assert!(!cross_proof_b.validate()); // not valid encoding -> reject
     }
 }
