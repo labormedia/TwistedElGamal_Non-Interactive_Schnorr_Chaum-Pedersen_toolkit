@@ -72,6 +72,18 @@ use curve25519_dalek::{
 use rand_core::{OsRng, RngCore, CryptoRngCore};
 use sha2::{Digest, Sha512};
 
+static public_labels: &[&str] = &[
+    "G",
+    "H",
+    "Y",
+    "Cm",
+    "C1",
+    "C2",
+    "T1",
+    "T2",
+    "T3",
+];
+
 /// Pedersen generator H from "hidden" label and Ristretto Base Point G.
 fn pedersen_h() -> RistrettoPoint {
     let mut d = Sha512::new();
@@ -171,17 +183,6 @@ struct ConsistencyProof {
 
 fn check_challenge(value_list: &[(&str, RistrettoPoint)]) -> Sha512 {
     let mut e = Sha512::new();
-    let public_labels: &[&str] = &[
-        "G",
-        "H",
-        "Y",
-        "Cm",
-        "C1",
-        "C2",
-        "T1",
-        "T2",
-        "T3",
-    ];
     for (i, &(label, point)) in value_list.iter().enumerate() {
         if label == public_labels[i] {
             absorb_point(label.as_bytes(), &point,&mut  e);
