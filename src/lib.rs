@@ -166,8 +166,8 @@ impl KeyPair {
     }
 }
 
-// ConsistencyProof is perfectly hiding and biding.
-// Based on the discrete logarithm (DL) and the Discretional Diffie-Hellman (DDH) assumptions, this data is perfectly hiding and binding to the witnesses m, r and k.
+// ConsistencyProof is hiding and biding.
+// Based on the discrete logarithm (DL) and the Discretional Diffie-Hellman (DDH) assumptions, this data is computationally hiding and binding to the witnesses m, r and k.
 struct ConsistencyProof {
     Y: RistrettoPoint,
     cm: RistrettoPoint,
