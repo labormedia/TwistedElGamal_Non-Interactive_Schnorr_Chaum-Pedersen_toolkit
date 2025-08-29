@@ -63,6 +63,9 @@
 //!
 //! Completeness, special soundness, HVZK and NIZK given by the Multi-relation Sigma Protocol with Fiat-Shamir heuristics.
 //!
+mod questions;
+mod traits;
+
 use curve25519_dalek::{
     RistrettoPoint, 
     Scalar,

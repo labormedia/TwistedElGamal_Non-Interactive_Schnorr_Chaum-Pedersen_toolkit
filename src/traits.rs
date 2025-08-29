@@ -11,3 +11,7 @@ trait Encryption {
     fn encrypt(pk: RistrettoPoint, x: Scalar) -> CypherText;
     fn decrypt(sk: Scalar, ct: CypherText) -> Scalar;
 }
+
+pub trait MyTrait: Sync + Send {
+    fn borrow(&self);
+}
