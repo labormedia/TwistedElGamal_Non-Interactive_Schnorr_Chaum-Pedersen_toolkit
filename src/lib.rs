@@ -105,7 +105,7 @@ fn absorb_point(label: &[u8], p: &RistrettoPoint, digest: &mut Sha512) {
 }
 
 #[derive(Clone)]
-struct Message {
+pub struct Message {
     pub m: Scalar,
     pub point: RistrettoPoint,
 }
@@ -118,7 +118,7 @@ impl Message {
 }
 
 #[derive(Clone, Debug)]
-struct CipherText {
+pub struct CipherText {
     pub c1: RistrettoPoint,
     pub c2: RistrettoPoint,
 }
@@ -168,7 +168,7 @@ impl KeyPair {
 
 // ConsistencyProof is hiding and biding.
 // Based on the discrete logarithm (DL) and the Discretional Diffie-Hellman (DDH) assumptions, this data is computationally hiding and binding to the witnesses m, r and k.
-struct ConsistencyProof {
+pub struct ConsistencyProof {
     Y: RistrettoPoint,
     cm: RistrettoPoint,
     c1: RistrettoPoint,
