@@ -117,6 +117,13 @@ impl Message {
     }
 }
 
+impl From<u64> for Message {
+    fn from(value: u64) -> Self {
+        let m = Scalar::hash_from_bytes::<Sha512>(&value.to_le_bytes());
+        Self { m, point: m*G }
+    }
+}
+
 #[derive(Clone, Debug)]
 pub struct CipherText {
     pub c1: RistrettoPoint,
@@ -194,7 +201,7 @@ fn check_challenge(value_list: &[(&str, RistrettoPoint)]) -> Sha512 {
 }
 
 impl ConsistencyProof {
-    fn build<R: CryptoRngCore>(message: &Message, scheme: &ProtocolScheme, rng: &mut R) -> Self {
+    pub fn build<R: CryptoRngCore>(message: &Message, scheme: &ProtocolScheme, rng: &mut R) -> Self {
         let alpha = Scalar::random(rng);
         let beta = Scalar::random(rng);
         let gamma = Scalar::random(rng);
@@ -237,7 +244,7 @@ impl ConsistencyProof {
             s_k,
         }
     }
-    fn validate(&self) -> bool {
+    pub fn validate(&self) -> bool {
         let H = pedersen_h();
         let challenge_values= [
             ("G", G),
