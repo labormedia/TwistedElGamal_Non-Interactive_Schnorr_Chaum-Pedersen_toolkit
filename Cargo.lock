@@ -3,15 +3,6 @@
 version = 4
 
 [[package]]
-name = "TwistedElGamal_Non-Interactive_Schnorr_Chaum-Pedersen_toolkit"
-version = "0.1.0"
-dependencies = [
- "curve25519-dalek",
- "rand_core",
- "sha2",
-]
-
-[[package]]
 name = "block-buffer"
 version = "0.10.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -184,6 +175,15 @@ dependencies = [
  "proc-macro2",
  "quote",
  "unicode-ident",
+]
+
+[[package]]
+name = "twisted_el_gamal_non_interactive_schnorr_chaum_pedersen_toolkit"
+version = "0.1.0"
+dependencies = [
+ "curve25519-dalek",
+ "rand_core",
+ "sha2",
 ]
 
 [[package]]
