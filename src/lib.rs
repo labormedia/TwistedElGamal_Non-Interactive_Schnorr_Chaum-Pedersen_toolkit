@@ -49,7 +49,7 @@
 //! Completeness: check for generic variables
 //! Special soundness: Two accepting transcripts with same initial T_1, T_2, T_3 and different challenges extracts the openings (m, r, k)
 //! Honest validator zero-knowledge (HVZK): From an accepting transcript, we can simulate T_1, T_2, T_3 from totally random s_m, s_r, s_k <-$ Z_q and post hoc e, proving no aditional information is leaked.
-//! Non-Interactive zero-knowledge (NIZK): Given by HVSK and the Fiat-Shamit heuristics.
+//! Non-Interactive zero-knowledge (NIZK): Given by HVSK and the Fiat-Shamir heuristics.
 //!
 //! Sigma Protocol (P,V) for Verifiable Decryption (Chaum-Pedersen):
 //! Proves that log_G(C1) = log_Y(C2 - M)
@@ -58,7 +58,7 @@
 //! A = t*G, B = t*Y
 //! <- Validator V send a challenge e
 //! -> Prover responds with scalar z = t + e*k
-//! V verifies z*G =? A + e*C_1, z*Y =? B + (C_2 - M)
+//! V verifies z*G =? A + e*C_1, z*Y =? B + e*(C_2 - M)
 //! If both conditions hold, accepts, otherwise rejects.
 //!
 //! Completeness, special soundness, HVZK and NIZK given by the Multi-relation Sigma Protocol with Fiat-Shamir heuristics.
