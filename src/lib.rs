@@ -287,6 +287,20 @@ impl ProtocolScheme {
             r,
         }
     }
+    pub fn setup_with_pk<R: CryptoRngCore>(message: &[u8], p_k: &RistrettoPoint, rng: &mut R) -> Self {
+        let h = pedersen_h();
+        let message_opening = Message::new(message);
+        let r = Scalar::random(rng);
+        let encryption = twisted_elgamal_encrypt(&p_k, &message_opening.point, rng);
+        let pedersen_commitment = RistrettoPoint::multiscalar_mul(&[message_opening.m, r], &[G, h]);
+        Self {
+            Y: *p_k,
+            pedersen_commitment,
+            ct: encryption.0,
+            k: encryption.1,
+            r,
+        }        
+    }
 }
 
 #[cfg(test)]
